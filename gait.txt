@@ -14,10 +14,24 @@ I.) Créer le cadre de départ :
                 solution : Suivi du cours Openclassrooms : Rédigez en Markdown !
         - depuis la console à la racine de mon projet macgyver :
             - initialisation de git : git init
-            - ajout du fichier README.md : git add README.md
+            - ajout du fichier README.md (je ne le reprécise pas mais tous les fichiers sont, au fur et à mesure,
+              ajoutés à git): git add README.md
             - premier commit : git commit -m "first commit"
             - configuration du repository github : git remote add origin https://github.com/sandrinesuire/macgyver.git
             - push sur github : git push -u origin master
+
+    B.) Travailler dans un virtual environement :
+        - création du virtual environment depuis la console:
+            - pip install virtualenv
+            - virtualenv -p python3 env
+            - source env/bin/activate
+        - création du fichier de requirements:
+            - pip freeze > requirements.txt
+        - installation des requirements :
+            - pip install -r requirements.txt
+        - creation du fichier install.py
+
+
 
 
 ALGORITHME :
