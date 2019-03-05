@@ -1,0 +1,23 @@
+Sandrine SUIRE
+sandrinesuire@me.com
+démarrage le 05/03/19
+
+PROJET N°3 : Aidez MacGyver à s'échapper !
+
+
+I.) Créer le cadre de départ :
+    A.) Initialisez un repo Git et envoyez-le sur Github :
+        - création d'un repository sur github nommé "macgyver"
+        - création d'un folder "macgyver" sur mon pc local
+        - création et constitution du fichier README.md
+                difficulté : écriture en Markdown
+                solution : Suivi du cours Openclassrooms : Rédigez en Markdown !
+        - depuis la console à la racine de mon projet macgyver :
+            - initialisation de git : git init
+            - ajout du fichier README.md : git add README.md
+            - premier commit : git commit -m "first commit"
+            - configuration du repository github : git remote add origin https://github.com/sandrinesuire/macgyver.git
+            - push sur github : git push -u origin master
+
+
+ALGORITHME :
