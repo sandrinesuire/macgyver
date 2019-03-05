@@ -1,35 +1,40 @@
 from random import choice
 
-from obstacles import Wall, Guardian, Macgyver, Protection
+from obstacles import Wall, Guardian, Actor, Protection, Space
 
 
 class Labyrinthe:
     """
     The labyrinth class corresponds to the platform of the game, it converts the file map.txt into obstalcles and
-    positions the guardian as well as macgyver.
+    positions the guardian as well as actor.
 
     For this activity there is only one map so for this reason I load it at initialization, in a more complex case we
     could initialize the labyrinth with the file name parameter.
     """
+    # find below the parameters for the map_file. You can change the width (limit_x) and the length (limit_y).
+    # you can change the symbols of the obstacles (Wall, Guardian, Actor, Space), you can adapte the file name 's map.
     limit_x = 15
     limit_y = 15
     protections_titles = ["needle", "plastic_tube", "ether"]
-    obstacles_symbols = {
+    symbols = {
         "o": Wall,
-        "u": Guardian
+        "u": Guardian,
+        "x": Actor,
+        " ": Space
     }
+    map_file = "map.txt"
 
     def __init__(self):
         """
         Method initializing the data and construct the grid
         """
-        self.macgyver = None
+        self.actor = None
         self.grid = {}
         self.game_over = False
 
-        with open("map.txt", "r") as f:
+        with open(self.map_file, "r") as f:
             content = f.read()
-            obstacles, self.macgyver = self._creating_obstacles(content)
+            obstacles, self.actor = self._creating_obstacles(content)
 
         for obstacle in obstacles:
             if (obstacle.x, obstacle.y) in self.grid:
@@ -51,31 +56,34 @@ class Labyrinthe:
         x = 0
         y = 0
         obstacles = []
-        macgyver = None
+        actor = None
         for letter in file_content:
             if letter == "\n":
                 x = 0
                 y += 1
                 continue
-            elif letter.lower() == " ":
+            elif self.symbols[letter.lower()] == Space:
+                # I do nothing for space, the model exist but I don't need to instancie it, I need the model to
+                # parameter the symbol in file
                 pass
-            elif letter.lower() == "x":
-                macgyver = Macgyver(x, y)
-            elif letter.lower() in self.obstacles_symbols:
-                model = self.obstacles_symbols[letter.lower()]
+            elif self.symbols[letter.lower()] == Actor:
+                actor = Actor(x, y)
+                obstacles.append(actor)
+            elif letter.lower() in self.symbols.keys():
+                model = self.symbols[letter.lower()]
                 obstacle = model(x, y)
                 obstacles.append(obstacle)
             else:
                 raise ValueError("unknown symbol {}".format(letter))
 
             x += 1
-        return obstacles, macgyver
+        return obstacles, actor
 
     def display(self):
         """
         Method returning the string representing the labyrinth.
-        We take the limits to display the grid. Obstacles and macgyver are displayed using their class attribute
-        'symbol'.
+        We take the limits to display the grid. Obstacles and actor are displayed using their class attribute
+        'repre'.
         """
         y = 0
         printer_grid = ""
@@ -85,7 +93,7 @@ class Labyrinthe:
             while x < self.limit_x:
                 case = self.grid.get((x, y))
                 if case:
-                    printer_grid += case.symbol
+                    printer_grid += case.repre
                 else:
                     printer_grid += " "
 
@@ -96,43 +104,9 @@ class Labyrinthe:
 
         return printer_grid
 
-    def move_macgyver(self, direction):
-        """
-        Method moving macgyver.
-        The direction is to specify in the form of chain, "north", "east", "south", or "west".
-        If macgyver encounters an obstacle we deal with the confrontation.
-        """
-        coords = [self.macgyver.x, self.macgyver.y]
-        directions = {"north": [1, -1], "east": [0, 1], "south": [1, 1], "west": [0, -1]}
-        if direction in directions:
-            coords[directions[direction][0]] == directions[direction][1]
-        else:
-            raise ValueError("unknown direction {}".format(direction))
-
-        x, y = coords
-        if x >= 0 and x < self.limit_x and y >= 0 and y < self.limit_y:
-            # trying to move macgyver
-            # checking if obstacle
-            obstacle = self.grid.get((x, y))
-            if obstacle is None:
-                # delete old position of macgyver in the self.grid
-                del self.grid[self.macgyver.x, self.macgyver.y]
-
-                # registre the new position of macgyver in the grid
-                self.grid[x, y] = self.macgyver
-                self.macgyver.x = x
-                self.macgyver.y = y
-
-                # Calling front method of the obstacle if existing
-                if obstacle:
-                    obstacle.front(self)
-                return True
-
-        return False
-
     def _place_protections(self):
         """
-        Method random placing all the macgyver needed protections.
+        Method random placing all the actor needed protections.
         :return: Nothing
         """
         grid = self.grid
@@ -141,28 +115,57 @@ class Labyrinthe:
         y = 0
 
         # Finding the limits x and y of the grid
-        l_x = self.limit_x
-        l_y = self.limit_y
-        while l_x > 0:
-            if (l_x, 0) in grid:
-                break
-            l_x -= 1
-
-        while l_y > 0:
-            if (0, l_y) in grid:
-                break
-            l_y -= 1
-
-        while y < l_y:
-            x = 0
-            while x < l_x:
-                if (x, y) not in grid:
+        for x in range(self.limit_x):
+            for y in range(self.limit_y):
+                if(x, y) not in grid:
                     frees.append((x, y))
-                x += 1
-            y += 1
 
         for protection_title in self.protections_titles:
             x, y = choice(frees)
             frees.remove((x, y))
             protection = Protection(x, y, protection_title)
             self.grid[x, y] = protection
+
+    def moove_actor(self, direction):
+        """
+        Method moving actor.
+        The direction is to specify in the form of chain, "north", "east", "south", or "west".
+        If actor encounters an obstacle we deal with the confrontation.
+        """
+        lettre = direction
+        directions = {
+            "e": "east",
+            "s": "south",
+            "w": "west",
+            "n": "north",
+        }
+
+        direction = directions[lettre]
+
+        coords = [self.actor.x, self.actor.y]
+        directions = {"north": [1, -1], "east": [0, 1], "south": [1, 1], "west": [0, -1]}
+        if direction in directions:
+            coords[directions[direction][0]] += directions[direction][1]
+        else:
+            raise ValueError("unknown direction {}".format(direction))
+
+        x, y = coords
+        if x >= 0 and x < self.limit_x and y >= 0 and y < self.limit_y:
+            # trying to move actor
+            # checking if obstacle
+            obstacle = self.grid.get((x, y))
+            if obstacle is None or isinstance(obstacle, Protection) or isinstance(obstacle, Guardian):
+                # delete old position of actor in the self.grid
+                del self.grid[self.actor.x, self.actor.y]
+
+                # registre the new position of actor in the grid
+                self.grid[x, y] = self.actor
+                self.actor.x = x
+                self.actor.y = y
+
+                # Calling front method of the obstacle if existing
+                if obstacle:
+                    obstacle.front(self)
+                return True
+        print("You can't moove here")
+        return False

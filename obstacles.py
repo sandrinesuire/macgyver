@@ -1,13 +1,9 @@
-from abc import ABC
-
-
-class Obstacle(ABC):
+class Obstacle:
     """
     Class abstract representing all obstacle class.
     """
-
     name = "obstacle"
-    symbol = ""
+    repre = ""
 
     def __init__(self, x, y, name=None):
         self.x = x
@@ -23,60 +19,68 @@ class Obstacle(ABC):
 
     def front(self, labyrinthe):
         """
-        Method call when macgyver arrive in front of a instance. This method must be redefined in child class.
+        Method call when actor arrive in front of a instance. This method must be redefined in child class.
         """
         pass
+
+
+class Space(Obstacle):
+    """
+    Class representing a a space in labyrinthe.
+    """
+    name = "space"
+    repre = " "
 
 
 class Wall(Obstacle):
     """
     Class representing a piece of wall.
     """
-
     name = "wall"
-    symbol = "O"
+    repre = "O"
 
 
 class Guardian(Obstacle):
     """
-    Class representing the guardian (this is the exit), he will sleep only if macgyver arrive with all the protections.
+    Class representing the guardian (this is the exit), he will sleep only if actor arrive with all the protections.
     """
-
     name = "guardian"
-    symbol = "U"
+    repre = "U"
 
     def front(self, labyrinthe):
         """
-        If macgyver arrive with all the protections the gardian must sleep, if not the guardian will kill macgyver
+        If actor arrive with all the protections the gardian must sleep, if not the guardian will kill actor
         """
         # take all protection_title in labyrinthe.protections_titles and verifying that existing in one of all
-        # labyrinthe.macgyver.protections name
+        # labyrinthe.actor.protections name
 
-        labyrinthe.macgyver.inlife = all(protection_title in labyrinthe.protections_titles for protection_title in
-                             [e.name for e in labyrinthe.macgyver.protections])
+        labyrinthe.actor.inlife = all(protection_title in labyrinthe.protections_titles for protection_title in
+                             [e.name for e in labyrinthe.actor.protections])
         labyrinthe.game_over = True
 
 
 class Protection(Obstacle):
     """
-    Class representing the protections that macgyver must collect to put the guardian to sleep.
+    Class representing the protections that actor must collect to put the guardian to sleep.
     """
     name = "protection"
-    symbol = "Y"
+    repre = "Y"
 
     def front(self, labyrinthe):
         """
         Recovers the protections and frees the passage
         """
-        labyrinthe.macgyver.protections.append(self)
+        labyrinthe.grid[self.x, self.y] = None
+        labyrinthe.actor.protections.append(self)
 
 
-class Macgyver(Obstacle):
+class Actor(Obstacle):
     """
-    Class representing macgyver (like a wall or a protection, macgyver is an obstacle in the labyrinthe he have
+    Class representing actor (like a wall or a protection, actor is an obstacle in the labyrinthe he have
     coordonates too)
     """
     name = "macgyver"
-    symbol = "X"
+    repre = "X"
+    inlife = True
     protections = []
 

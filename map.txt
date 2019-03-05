@@ -1,5 +1,5 @@
 OOOOOOOOOOOOOOO
-OXO   O    O  U
+OXO        O  U
 O O O O    O OO
 O O O O    O  O
 O O O O    OO O
@@ -8,13 +8,8 @@ O O O OOOOOO OO
 O O O         O
 O O OOOOOOOOOOO
 O O           O
-O O O  OOOO   O
+O O O   OOO   O
 O OOOOO   O   O
-O O   O OOO   O
-O O O O O O   O
-O O O O O O   O
-O O O OOO O   O
-O O O     O   O
-O O O     O   O
-O   O         O
+O O  O O OOO  O
+O             O
 OOOOOOOOOOOOOOO
