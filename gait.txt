@@ -62,4 +62,3 @@ I.) Créer le cadre de départ :
         display labyrinthe pour que les objects se chargent avec leurs images
         - j'ai ajouter la gestion des event et adapter le code pour que tout fonctionne
 
-ALGORITHME :

@@ -15,7 +15,7 @@ class Labyrinthe:
     could initialize the labyrinth with the file name parameter, and adding a card model to construct the map.
     """
     # find below the parameters for the map_file. You can change the width (limit_x) and the length (limit_y).
-    # you can change the symbols of the obstacles (Wall, Guardian, Actor, Space), you can adapte the file name 's map.
+    # you can change the symbols of the obstacles (Wall, Guardian, Actor, Space), you can adapte the file name 's map...
     limit_x = 15
     limit_y = 15
     protections = [
@@ -30,39 +30,21 @@ class Labyrinthe:
         " ": Space
     }
     map_file = "map.txt"
+    window = pygame.display.set_mode((600, 600), RESIZABLE)
 
     def __init__(self):
         """
         Method initializing the data and construct the grid. The grid is a dictionnary composed of "key" coordinate
         tuple and "value" obstacle instance. An obstacle instance can be the guardian, a wall, a protection, the actor.
         """
-        # pygame initialisation
-        pygame.init()
-
-        # window size and color
-        self.window = pygame.display.set_mode((600, 600), RESIZABLE)
-        self.background = pygame.image.load("ressource/background.jpg").convert()
-        self.window.blit(self.background, (0, 0))
-        # Icon
-        self.icon = pygame.image.load("ressource/tile-crusader-logo.png")
-        pygame.display.set_icon(self.icon)
-        # Title
-        pygame.display.set_caption("MacGyver need your help !")
-        pygame.key.set_repeat(400, 30)
-
-        # sound of quit
-        self.son = pygame.mixer.Sound("ressource/test.wav")
-
-        # font and message parameter
-        self.myfont = pygame.font.SysFont('Comic Sans MS', 30)
-        self.textsurface = self.myfont.render('Some Text', False, (0, 0, 0))
+        self.initialize_pygame()
 
         self.grid = {}
         self.game_over = False
 
         with open(self.map_file, "r") as f:
             content = f.read()
-            obstacles, self.actor = self._creating_obstacles(content)
+            obstacles, self.actor, self.guardian = self._creating_obstacles(content)
 
         for obstacle in obstacles:
             if (obstacle.x, obstacle.y) in self.grid:
@@ -76,6 +58,36 @@ class Labyrinthe:
         self._place_protections()
 
         self.display()
+
+    def initialize_pygame(self):
+        """
+        Method setting parameters for pygame
+        """
+        # pygame initialisation
+        pygame.init()
+
+        # calculate size of a block and window
+        self.width, self.heigth = pygame.display.get_surface().get_size()
+        self.width = int(self.width)
+        self.heigth = int(self.heigth)
+        self.bloc_y = int(self.heigth / self.limit_y)
+        self.bloc_x = int(self.width / self.limit_x)
+        # the window size is configurable, the number of bloc too so we need to scale all image for correspondind to
+        # window size and bloc size
+        self.background = pygame.image.load("ressource/background.jpg").convert_alpha()
+        self.background = pygame.transform.scale(self.background, (self.width, self.heigth))
+        self.window.blit(self.background, (0, 0))
+        # Icon
+        self.icon = pygame.image.load("ressource/logo.png")
+        pygame.display.set_icon(self.icon)
+        # Title
+        pygame.display.set_caption("MacGyver need your help !")
+        pygame.key.set_repeat(400, 30)
+        # sound of quit
+        self.son = pygame.mixer.Sound("ressource/test.wav")
+        # font and message parameter
+        self.myfont = pygame.font.SysFont('Comic Sans MS', int(self.bloc_x / 4 * 3))
+        self.display_message = None
 
     def _creating_obstacles(self, file_content):
         """
@@ -103,6 +115,9 @@ class Labyrinthe:
             elif self.symbols[letter.lower()] == Actor:
                 actor = Actor(x, y)
                 obstacles.append(actor)
+            elif self.symbols[letter.lower()] == Guardian:
+                guardian = Guardian(x, y)
+                obstacles.append(guardian)
             elif letter.lower() in self.symbols.keys():
                 model = self.symbols[letter.lower()]
                 obstacle = model(x, y)
@@ -111,7 +126,7 @@ class Labyrinthe:
                 raise ValueError("unknown symbol {}".format(letter))
 
             x += 1
-        return obstacles, actor
+        return obstacles, actor, guardian
 
     def display(self):
         """
@@ -126,11 +141,33 @@ class Labyrinthe:
             while x < self.limit_x:
                 case = self.grid.get((x, y))
                 if case:
-                    piece = pygame.image.load(case.repr).convert()
-                    self.window.blit(piece, (x*40, y*40))
+                    piece = pygame.image.load(case.repr).convert_alpha()
+                    piece = pygame.transform.scale(piece, (self.bloc_x, self.bloc_y))
+                    self.window.blit(piece, (x*self.bloc_x, y*self.bloc_y))
                 x += 1
             y += 1
+        if self.display_message:
+            self.display_the_message()
         pygame.display.flip()
+
+    def display_the_message(self):
+        """
+        Method display the message
+        """
+        # we display a info bulle to give the number of missing protections, the coordonates of display depending
+        # of the coordonates of the actor, while being careful not to go over the window
+        bulle = pygame.image.load("ressource/bulle.png").convert_alpha()
+        bulle = pygame.transform.scale(bulle, (3 * self.bloc_x, 1 * self.bloc_y))
+        loc_x_bulle = self.display_message[0] * self.bloc_x
+        loc_y_bulle = self.display_message[1] * self.bloc_x
+        if loc_x_bulle > self.width - 3 * self.bloc_x:
+            loc_x_bulle = self.width - 3 * self.bloc_x
+        if loc_y_bulle > self.heigth - 1 * self.bloc_y:
+            loc_y_bulle = self.heigth - 1 * self.bloc_y
+        self.window.blit(bulle, (loc_x_bulle, loc_y_bulle))
+        self.window.blit(self.myfont.render(self.display_message[2], False, (0, 0, 0)),
+                         (loc_x_bulle + 5, loc_y_bulle + 5))
+        self.son.play()
 
     def refresh(self):
         """
@@ -166,26 +203,17 @@ class Labyrinthe:
     def moove_actor(self, direction):
         """
         Method moving actor.
-        The direction is to specify in the form of chain, "north", "east", "south", or "west".
+        The direction is to specify in the form of coordonnate (x, y).
         If actor encounters an obstacle we deal with the confrontation.
 
         :param direction: the direction to moove this actor
         """
-        lettre = direction
-        directions = {
-            "e": "east",
-            "s": "south",
-            "w": "west",
-            "n": "north",
-        }
-
-        direction = directions[lettre]
-
         # affected the change of direction to coords
         coords = [self.actor.x, self.actor.y]
-        directions = {"north": [1, -1], "east": [0, 1], "south": [1, 1], "west": [0, -1]}
+        directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
         if direction in directions:
-            coords[directions[direction][0]] += directions[direction][1]
+            coords[0] += direction[0]
+            coords[1] += direction[1]
         else:
             raise ValueError("unknown direction {}".format(direction))
 
@@ -201,6 +229,8 @@ class Labyrinthe:
                 # Calling front method of the obstacle if existing
                 if obstacle:
                     obstacle.front(self)
+                if self.display_message:
+                    self.display_the_message()
 
                 # registre the new position of actor in the grid
                 self.grid[x, y] = self.actor
