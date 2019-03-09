@@ -111,6 +111,12 @@ class Labyrinthe:
                 x += 1
             y += 1
 
+    def refresh(self, window):
+        """
+        Method refreshing all positions of obstacles
+        """
+        self.display(window)
+
     def _place_protections(self):
         """
         Private method random placing all the actor needed protections.
