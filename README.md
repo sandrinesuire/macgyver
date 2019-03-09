@@ -35,7 +35,7 @@ Launch start.py
 
 Settings
 --------
-The labyrinth file is setting on map.xsb, you can change the locations as you want (thanks to respect the logic of the 
+The labyrinth file is setting on map.txt, you can change the locations as you want (thanks to respect the logic of the 
 game).
 
 Remarks
