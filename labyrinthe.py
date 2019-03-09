@@ -36,7 +36,27 @@ class Labyrinthe:
         Method initializing the data and construct the grid. The grid is a dictionnary composed of "key" coordinate
         tuple and "value" obstacle instance. An obstacle instance can be the guardian, a wall, a protection, the actor.
         """
-        self.actor = None
+        # pygame initialisation
+        pygame.init()
+
+        # window size and color
+        self.window = pygame.display.set_mode((600, 600), RESIZABLE)
+        self.background = pygame.image.load("ressource/background.jpg").convert()
+        self.window.blit(self.background, (0, 0))
+        # Icon
+        self.icon = pygame.image.load("ressource/tile-crusader-logo.png")
+        pygame.display.set_icon(self.icon)
+        # Title
+        pygame.display.set_caption("MacGyver need your help !")
+        pygame.key.set_repeat(400, 30)
+
+        # sound of quit
+        self.son = pygame.mixer.Sound("ressource/test.wav")
+
+        # font and message parameter
+        self.myfont = pygame.font.SysFont('Comic Sans MS', 30)
+        self.textsurface = self.myfont.render('Some Text', False, (0, 0, 0))
+
         self.grid = {}
         self.game_over = False
 
@@ -54,6 +74,8 @@ class Labyrinthe:
             self.grid[obstacle.x, obstacle.y] = obstacle
 
         self._place_protections()
+
+        self.display()
 
     def _creating_obstacles(self, file_content):
         """
@@ -91,13 +113,11 @@ class Labyrinthe:
             x += 1
         return obstacles, actor
 
-    def display(self, window):
+    def display(self):
         """
         Method returning the string representing of the map.
         We take the limits to display the grid. Obstacles and actor are displayed using their class attribute
         'repr'.
-
-        :param window: the pygame window
         """
         y = 0
 
@@ -107,15 +127,16 @@ class Labyrinthe:
                 case = self.grid.get((x, y))
                 if case:
                     piece = pygame.image.load(case.repr).convert()
-                    window.blit(piece, (x*40, y*40))
+                    self.window.blit(piece, (x*40, y*40))
                 x += 1
             y += 1
+        pygame.display.flip()
 
-    def refresh(self, window):
+    def refresh(self):
         """
         Method refreshing all positions of obstacles
         """
-        self.display(window)
+        self.display()
 
     def _place_protections(self):
         """
@@ -185,3 +206,5 @@ class Labyrinthe:
                 self.grid[x, y] = self.actor
                 self.actor.x = x
                 self.actor.y = y
+        self.window.blit(self.background, (0, 0))
+        self.refresh()
