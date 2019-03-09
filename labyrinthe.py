@@ -30,7 +30,6 @@ class Labyrinthe:
         " ": Space
     }
     map_file = "map.txt"
-    window = None
 
     def __init__(self):
         """
@@ -92,18 +91,14 @@ class Labyrinthe:
             x += 1
         return obstacles, actor
 
-    def display(self,):
+    def display(self, window):
         """
         Method returning the string representing of the map.
         We take the limits to display the grid. Obstacles and actor are displayed using their class attribute
         'repr'.
 
-        :return: the string representation of the map
+        :param window: the pygame window
         """
-        self.window = pygame.display.set_mode((600, 600), RESIZABLE)
-        background = pygame.image.load("ressource/background.jpg").convert()
-        self.window.blit(background, (0, 0))
-
         y = 0
 
         while y < self.limit_y:
@@ -112,12 +107,9 @@ class Labyrinthe:
                 case = self.grid.get((x, y))
                 if case:
                     piece = pygame.image.load(case.repr).convert()
-                    self.window.blit(piece, (x*40, y*40))
-
+                    window.blit(piece, (x*40, y*40))
                 x += 1
-
             y += 1
-        pygame.display.flip()
 
     def _place_protections(self):
         """
@@ -187,5 +179,3 @@ class Labyrinthe:
                 self.grid[x, y] = self.actor
                 self.actor.x = x
                 self.actor.y = y
-
-        self.display()
