@@ -30,6 +30,7 @@ class Labyrinthe:
         " ": Space
     }
     map_file = "map.txt"
+    window = None
 
     def __init__(self):
         """
@@ -91,7 +92,7 @@ class Labyrinthe:
             x += 1
         return obstacles, actor
 
-    def display(self):
+    def display(self,):
         """
         Method returning the string representing of the map.
         We take the limits to display the grid. Obstacles and actor are displayed using their class attribute
@@ -99,10 +100,9 @@ class Labyrinthe:
 
         :return: the string representation of the map
         """
-        pygame.init()
-        window = pygame.display.set_mode((600, 600), RESIZABLE)
+        self.window = pygame.display.set_mode((600, 600), RESIZABLE)
         background = pygame.image.load("ressource/background.jpg").convert()
-        window.blit(background, (0, 0))
+        self.window.blit(background, (0, 0))
 
         y = 0
 
@@ -112,13 +112,12 @@ class Labyrinthe:
                 case = self.grid.get((x, y))
                 if case:
                     piece = pygame.image.load(case.repr).convert()
-                    window.blit(piece, (x*40, y*40))
+                    self.window.blit(piece, (x*40, y*40))
 
                 x += 1
 
             y += 1
         pygame.display.flip()
-        return window
 
     def _place_protections(self):
         """
@@ -152,7 +151,6 @@ class Labyrinthe:
         If actor encounters an obstacle we deal with the confrontation.
 
         :param direction: the direction to moove this actor
-        :return: True or False if the moove is authorized
         """
         lettre = direction
         directions = {
@@ -181,14 +179,13 @@ class Labyrinthe:
                 # delete old position of actor in the self.grid
                 del self.grid[self.actor.x, self.actor.y]
 
+                # Calling front method of the obstacle if existing
+                if obstacle:
+                    obstacle.front(self)
+
                 # registre the new position of actor in the grid
                 self.grid[x, y] = self.actor
                 self.actor.x = x
                 self.actor.y = y
 
-                # Calling front method of the obstacle if existing
-                if obstacle:
-                    obstacle.front(self)
-                return True
-        print("You can't moove here")
-        return False
+        self.display()
