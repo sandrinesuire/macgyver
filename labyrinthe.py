@@ -1,4 +1,7 @@
+import pygame
 from random import choice
+
+from pygame.constants import RESIZABLE
 
 from obstacles import Wall, Guardian, Actor, Protection, Space
 
@@ -15,7 +18,11 @@ class Labyrinthe:
     # you can change the symbols of the obstacles (Wall, Guardian, Actor, Space), you can adapte the file name 's map.
     limit_x = 15
     limit_y = 15
-    protections_titles = ["needle", "plastic_tube", "ether"]
+    protections = [
+        {"needle": "ressource/needle.png"},
+        {"plastic_tub": "ressource/plastic_tub.png"},
+        {"ether": "ressource/ether.png"}
+    ]
     symbols = {
         "o": Wall,
         "u": Guardian,
@@ -92,24 +99,26 @@ class Labyrinthe:
 
         :return: the string representation of the map
         """
+        pygame.init()
+        window = pygame.display.set_mode((600, 600), RESIZABLE)
+        background = pygame.image.load("ressource/background.jpg").convert()
+        window.blit(background, (0, 0))
+
         y = 0
-        printer_grid = ""
 
         while y < self.limit_y:
             x = 0
             while x < self.limit_x:
                 case = self.grid.get((x, y))
                 if case:
-                    printer_grid += case.repr
-                else:
-                    printer_grid += " "
+                    piece = pygame.image.load(case.repr).convert()
+                    window.blit(piece, (x*40, y*40))
 
                 x += 1
 
-            printer_grid += "\n"
             y += 1
-
-        return printer_grid
+        pygame.display.flip()
+        return window
 
     def _place_protections(self):
         """
@@ -127,13 +136,14 @@ class Labyrinthe:
                 if(x, y) not in grid:
                     frees.append((x, y))
 
-        for protection_title in self.protections_titles:
+        for protection in self.protections:
+            title, repr = list(protection.items())[0]
             # i choose by chance a free place to place one of the needed protection, i remove this free place, and add
             # the instance in the grid
             x, y = choice(frees)
             frees.remove((x, y))
-            protection = Protection(x, y, protection_title)
-            self.grid[x, y] = protection
+            obj_protect = Protection(x, y, title, repr)
+            self.grid[x, y] = obj_protect
 
     def moove_actor(self, direction):
         """

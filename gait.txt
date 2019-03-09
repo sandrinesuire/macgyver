@@ -37,7 +37,7 @@ I.) Créer le cadre de départ :
             - coordonnées "limit_x" et "limit_y" : le labyrinthe est représenté dans une "grid", qui correspond à un
             dictionnaire dont la combinaison de chaque absisce et oordonnée (de 0 à la limit_x et de 0 à la limit_y),
             peut donner place à un objet (actor(macgyver), obstacles, ou gardien)
-            - protections_titles est la liste des titre de protections nécessaire en fonction du paramétrage du jeu.
+            - protections est la liste des titre de protections nécessaire en fonction du paramétrage du jeu.
             L'acteur macgyver nécessite l'acquisition de ces trois protections pour assurer sa survie. il est possible
             de changer cette règle en modifiant cette liste.
             - "map_file" est le nom du fichier contenant la carte.
@@ -55,6 +55,11 @@ I.) Créer le cadre de départ :
             labyrinthe)
             - la méthode front qui décrit l'action en cas de face à face avec l'acteur
 
+    D.) Quand la logique de votre labyrinthe est faite, utilisez le module PyGame pour dessiner l’interface graphique.
+        - J'ai trouvé un tuto de pygame sur openclassrooms sur lequel j'ai travaillé pour comprendre comment
+        fonctionnait pygame
+        - j'ai modifier mon code pour que la fenêtre de pygame s'affiche avec une image de fond et adapter ma méthode
+        display labyrinthe pour que les objects se chargent avec leurs images
 
 
 ALGORITHME :

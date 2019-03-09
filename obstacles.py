@@ -5,11 +5,13 @@ class Obstacle:
     name = "obstacle"
     repr = ""
 
-    def __init__(self, x, y, name=None):
+    def __init__(self, x, y, name=None, repr=None):
         self.x = x
         self.y = y
         if name:
             self.name = name
+        if repr:
+            self.repr = repr
 
     def __repr__(self):
         return "<{name} (x={x}, y={y})>".format(name=self.name, x=self.x, y=self.y)
@@ -38,7 +40,7 @@ class Wall(Obstacle):
     Class representing a piece of wall.
     """
     name = "wall"
-    repr = "O"
+    repr = "ressource/wood.png"
 
 
 class Guardian(Obstacle):
@@ -46,7 +48,7 @@ class Guardian(Obstacle):
     Class representing the guardian (this is the exit), he will sleep only if actor arrive with all the protections.
     """
     name = "guardian"
-    repr = "U"
+    repr = "ressource/guardian.png"
 
     def front(self, labyrinthe):
         """
@@ -56,8 +58,8 @@ class Guardian(Obstacle):
         :param labyrinthe: the labyrinthe instance
         """
 
-        labyrinthe.actor.inlife = all(protection_title in labyrinthe.protections_titles for protection_title in
-                             [e.name for e in labyrinthe.actor.protections])
+        labyrinthe.actor.inlife = all(protection in labyrinthe.protections for protection in
+                                      [e.name for e in labyrinthe.actor.protections])
         labyrinthe.game_over = True
 
 
@@ -66,7 +68,7 @@ class Protection(Obstacle):
     Class representing the protections that actor must collect to put the guardian to sleep.
     """
     name = "protection"
-    repr = "Y"
+    repr = "ressource/wood.png"
 
     def front(self, labyrinthe):
         """
@@ -84,7 +86,6 @@ class Actor(Obstacle):
     coordonates too)
     """
     name = "macgyver"
-    repr = "X"
+    repr = "ressource/actor.png"
     inlife = True
     protections = []
-

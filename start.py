@@ -1,18 +1,15 @@
-# -*-coding:Utf-8 -*
-
 """
 main activity of labyrinthe
 """
 
 from labyrinthe import Labyrinthe
-import sys
 
-# create labyrinthe instance
+# create labyrinthe instance and display
 labyrinthe = Labyrinthe()
+window = labyrinthe.display()
 
 # loop during game_over == False, it will be True when actor arrive front of guardian
 while not labyrinthe.game_over:
-    print(labyrinthe.display())
     direction = input("Please enter your mooving : ")
     direction_sens = direction[:1].lower()
 
@@ -27,8 +24,6 @@ while not labyrinthe.game_over:
     else:
         print("I don't understand your choice.")
 
-if labyrinthe.actor.inlife  == True:
+if labyrinthe.actor.inlife:
     print("You win this play")
-
-
 
