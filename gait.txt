@@ -50,14 +50,11 @@ I.) Créer le cadre de départ :
             de chaque phase de ce parcours, je parcours tous les y (dans la limite de limit_y) et je compare si ces
             coordonnées existes dans la grid du labyrinthe sinon j'ajoute le tuple à frees
         - création de models obstacles :
-            - 1 abstract model Obstacle, comprenant l'initialisation des coordonnées et du nom lorsqu'il est fourni
+            - 1 model Obstacle, comprenant l'initialisation des coordonnées et du nom lorsqu'il est fourni
             - Pour les model enfants, un nom et une lettre de représentation (pour l'impression de la grid du
             labyrinthe)
             - la méthode front qui décrit l'action en cas de face à face avec l'acteur
 
-
-    D.) Quand la logique de votre labyrinthe est faite, utilisez le module PyGame pour dessiner l’interface graphique.
-        -
 
 
 ALGORITHME :

@@ -10,7 +10,7 @@ import sys
 # create labyrinthe instance
 labyrinthe = Labyrinthe()
 
-# loop during the playing
+# loop during game_over == False, it will be True when actor arrive front of guardian
 while not labyrinthe.game_over:
     print(labyrinthe.display())
     direction = input("Please enter your mooving : ")

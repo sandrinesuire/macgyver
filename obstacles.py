@@ -1,9 +1,9 @@
 class Obstacle:
     """
-    Class abstract representing all obstacle class.
+    Class representing all obstacles class.
     """
     name = "obstacle"
-    repre = ""
+    repr = ""
 
     def __init__(self, x, y, name=None):
         self.x = x
@@ -19,17 +19,18 @@ class Obstacle:
 
     def front(self, labyrinthe):
         """
-        Method call when actor arrive in front of a instance. This method must be redefined in child class.
+        Method call when actor arrive in case of with an obstacle instance. This method must be redefined in 
+        child class.
         """
         pass
 
 
 class Space(Obstacle):
     """
-    Class representing a a space in labyrinthe.
+    Class representing a a space in labyrinthe. Just use for understanding the file map, to know where is the space.
     """
     name = "space"
-    repre = " "
+    repr = " "
 
 
 class Wall(Obstacle):
@@ -37,7 +38,7 @@ class Wall(Obstacle):
     Class representing a piece of wall.
     """
     name = "wall"
-    repre = "O"
+    repr = "O"
 
 
 class Guardian(Obstacle):
@@ -45,14 +46,15 @@ class Guardian(Obstacle):
     Class representing the guardian (this is the exit), he will sleep only if actor arrive with all the protections.
     """
     name = "guardian"
-    repre = "U"
+    repr = "U"
 
     def front(self, labyrinthe):
         """
-        If actor arrive with all the protections the gardian must sleep, if not the guardian will kill actor
+        If actor arrive with all the protections the gardian must sleep, if not the guardian will kill actor, so set
+        the inlife parameter in fonction. For all case set the game_over at True
+        
+        :param labyrinthe: the labyrinthe instance
         """
-        # take all protection_title in labyrinthe.protections_titles and verifying that existing in one of all
-        # labyrinthe.actor.protections name
 
         labyrinthe.actor.inlife = all(protection_title in labyrinthe.protections_titles for protection_title in
                              [e.name for e in labyrinthe.actor.protections])
@@ -64,11 +66,13 @@ class Protection(Obstacle):
     Class representing the protections that actor must collect to put the guardian to sleep.
     """
     name = "protection"
-    repre = "Y"
+    repr = "Y"
 
     def front(self, labyrinthe):
         """
-        Recovers the protections and frees the passage
+        Recovers the protections in the actor protections parameter and frees the passage
+
+        :param labyrinthe: the labyrinthe instance
         """
         labyrinthe.grid[self.x, self.y] = None
         labyrinthe.actor.protections.append(self)
@@ -80,7 +84,7 @@ class Actor(Obstacle):
     coordonates too)
     """
     name = "macgyver"
-    repre = "X"
+    repr = "X"
     inlife = True
     protections = []
 
