@@ -1,7 +1,8 @@
 import unittest
 import time
-import labyrinthe as script
-from obstacles import Actor, Guardian, Wall, Protection
+from models import labyrinthe as script
+
+from models.obstacles import Actor, Guardian, Wall, Protection
 
 
 class TestLabyrinthe(unittest.TestCase):

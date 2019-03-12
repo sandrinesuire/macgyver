@@ -14,8 +14,7 @@ I.) Créer le cadre de départ :
                 solution : Suivi du cours Openclassrooms : Rédigez en Markdown !
         - depuis la console à la racine de mon projet macgyver :
             - initialisation de git : git init
-            - ajout du fichier README.md (je ne le reprécise pas mais tous les fichiers sont, au fur et à mesure,
-              ajoutés à git): git add README.md
+            - ajout du fichier README.md (je ne le reprécise pas mais tous les fichiers sont, au fur et à mesure, ajoutés à git): git add README.md
             - premier commit : git commit -m "first commit"
             - configuration du repository github : git remote add origin https://github.com/sandrinesuire/macgyver.git
             - push sur github : git push -u origin master
@@ -34,34 +33,20 @@ I.) Créer le cadre de départ :
     C.) Commencez par créer le labyrinthe sans l’interface graphique.
         - création fichier map.txt avec largeur et longueur de 15 éléments, les emplacements de macgyver et de la sortie
         - création model labyrinthe avec les différents paramètres et méthodes :
-            - coordonnées "limit_x" et "limit_y" : le labyrinthe est représenté dans une "grid", qui correspond à un
-            dictionnaire dont la combinaison de chaque absisce et oordonnée (de 0 à la limit_x et de 0 à la limit_y),
-            peut donner place à un objet (actor(macgyver), obstacles, ou gardien)
-            - protections est la liste des titre de protections nécessaire en fonction du paramétrage du jeu.
-            L'acteur macgyver nécessite l'acquisition de ces trois protections pour assurer sa survie. il est possible
-            de changer cette règle en modifiant cette liste.
+            - coordonnées "limit_x" et "limit_y" : le labyrinthe est représenté dans une "grid", qui correspond à un dictionnaire dont la combinaison de chaque absisce et oordonnée (de 0 à la limit_x et de 0 à la limit_y), peut donner place à un objet (actor(macgyver), obstacles, ou gardien)
+            - protections est la liste des titre de protections nécessaire en fonction du paramétrage du jeu. L'acteur macgyver nécessite l'acquisition de ces trois protections pour assurer sa survie. il est possible de changer cette règle en modifiant cette liste.
             - "map_file" est le nom du fichier contenant la carte.
-            - lors de l'initialisation du labyrinthe, je remplie un dictionnaire avec un tuple de coordonnées et un
-            object correspondant (Wall, Guardian, Actor). Et j'ajoute les protections paramétrées.
-            Une petite explication pour l'algorithme choisi (nous sommes sur une compléxité linéaire) : à chaque
-            retour de chariot, je remet les x à 0 et j'augmente de 1 les y, et donc après chaque lecture de lettre
-            j'ajoute 1 à x.
-            - pour la méthode _place_protections, je parcour tous les x (dans la limite de limit_x) puis à l'intérieur
-            de chaque phase de ce parcours, je parcours tous les y (dans la limite de limit_y) et je compare si ces
-            coordonnées existes dans la grid du labyrinthe sinon j'ajoute le tuple à frees
+            - lors de l'initialisation du labyrinthe, je remplie un dictionnaire avec un tuple de coordonnées et un object correspondant (Wall, Guardian, Actor). Et j'ajoute les protections paramétrées. Une petite explication pour l'algorithme choisi (nous sommes sur une compléxité linéaire) : à chaque retour de chariot, je remet les x à 0 et j'augmente de 1 les y, et donc après chaque lecture de lettre j'ajoute 1 à x.
+            - pour la méthode _place_protections, je parcour tous les x (dans la limite de limit_x) puis à l'intérieur de chaque phase de ce parcours, je parcours tous les y (dans la limite de limit_y) et je compare si ces coordonnées existes dans la grid du labyrinthe sinon j'ajoute le tuple à frees
         - création de models obstacles :
             - 1 model Obstacle, comprenant l'initialisation des coordonnées et du nom lorsqu'il est fourni
-            - Pour les model enfants, un nom et une lettre de représentation (pour l'impression de la grid du
-            labyrinthe)
+            - Pour les model enfants, un nom et une lettre de représentation (pour l'impression de la grid du labyrinthe)
             - la méthode front qui décrit l'action en cas de face à face avec l'acteur
 
     D.) Quand la logique de votre labyrinthe est faite, utilisez le module PyGame pour dessiner l’interface graphique.
-        - J'ai trouvé un tuto de pygame sur openclassrooms sur lequel j'ai travaillé pour comprendre comment
-        fonctionnait pygame
-        - j'ai modifier mon code pour que la fenêtre de pygame s'affiche avec une image de fond et adapter ma méthode
-        display labyrinthe pour que les objects se chargent avec leurs images
-        - j'ai ajouter une structure et un texte pour les règles du jeu, et pour la récupération des objets et enfin
-        pour l'arrivée
+        - J'ai trouvé un tuto de pygame sur openclassrooms sur lequel j'ai travaillé pour comprendre comment fonctionnait pygame
+        - j'ai modifier mon code pour que la fenêtre de pygame s'affiche avec une image de fond et adapter ma méthode display labyrinthe pour que les objects se chargent avec leurs images
+        - j'ai ajouter une structure et un texte pour les règles du jeu, et pour la récupération des objets et enfin pour l'arrivée
         - j'ai ajouter la gestion des event et adapter le code pour que tout fonctionne
         - j'ai modifier l'image de l'acteur et du guardien en cas de victoire.
         - pour finir j'ai ajouter quelque test pour verifier mes méthodes du labyrinthe et des obstacles.

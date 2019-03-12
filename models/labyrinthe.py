@@ -3,7 +3,10 @@ from random import choice
 
 from pygame.constants import RESIZABLE
 
-from obstacles import Wall, Guardian, Actor, Protection, Space
+from models.actor import Actor
+from models.guardian import Guardian
+from models.obstacles import Wall, Space
+from models.protections import Protection
 
 
 class Labyrinthe:
@@ -131,6 +134,7 @@ class Labyrinthe:
                 pass
             elif self.symbols[letter.lower()] == Actor:
                 actor = Actor(x, y)
+                actor.labyrinthe = self
                 obstacles.append(actor)
             elif self.symbols[letter.lower()] == Guardian:
                 guardian = Guardian(x, y)
@@ -245,42 +249,3 @@ class Labyrinthe:
             obj_protect = Protection(x, y, title, image)
             self.grid[x, y] = obj_protect
 
-    def moove_actor(self, direction):
-        """
-        Method moving actor.
-        The direction is to specify in the form of coordonnate (x, y).
-        If actor encounters an obstacle we deal with the confrontation.
-
-        :param direction: the direction to moove this actor
-        """
-        # affected the change of direction to coords
-        coords = [self.actor.x, self.actor.y]
-        directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
-        if direction in directions:
-            coords[0] += direction[0]
-            coords[1] += direction[1]
-        else:
-            raise ValueError("unknown direction {}".format(direction))
-
-        x, y = coords
-        if x >= 0 and x < self.limit_x and y >= 0 and y < self.limit_y:
-            # trying to move actor
-            # checking if obstacle
-            obstacle = self.grid.get((x, y))
-
-            if obstacle is None or isinstance(obstacle, Protection) or isinstance(obstacle, Guardian):
-                # Calling front method of the obstacle if existing
-                if obstacle:
-                    obstacle.front(self)
-
-                # registre the new position of actor in the grid only if not arrive to exit because i need to display
-                # the front between actor and guardian
-                if not self.game_over:
-                    # delete old position of actor in the self.grid
-                    del self.grid[self.actor.x, self.actor.y]
-                    self.grid[x, y] = self.actor
-                    self.actor.x = x
-                    self.actor.y = y
-
-        self.window.blit(self.background, (0, 0))
-        self.refresh()

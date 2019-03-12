@@ -4,11 +4,12 @@ main activity of labyrinthe
 import time
 import pygame
 from pygame.constants import *
-from labyrinthe import Labyrinthe
+from models.labyrinthe import Labyrinthe
 
 
 # create labyrinthe instance, init the pygame window and display it
 labyrinthe = Labyrinthe()
+actor = labyrinthe.actor
 resize = None
 
 # display the rules of this game
@@ -37,13 +38,13 @@ while not labyrinthe.game_over:
 
         elif event.type == KEYDOWN:
             if event.key == K_DOWN:
-                labyrinthe.moove_actor([0, 1])
+                actor.move([0, 1])
             if event.key == K_UP:
-                labyrinthe.moove_actor([0, -1])
+                actor.move([0, -1])
             if event.key == K_RIGHT:
-                labyrinthe.moove_actor([1, 0])
+                actor.move([1, 0])
             if event.key == K_LEFT:
-                labyrinthe.moove_actor([-1, 0])
+                actor.move([-1, 0])
 
             # refresh the display
             labyrinthe.window.blit(labyrinthe.background, (0, 0))
