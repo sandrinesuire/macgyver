@@ -64,4 +64,5 @@ I.) Créer le cadre de départ :
         pour l'arrivée
         - j'ai ajouter la gestion des event et adapter le code pour que tout fonctionne
         - j'ai modifier l'image de l'acteur et du guardien en cas de victoire.
+        - pour finir j'ai ajouter quelque test pour verifier mes méthodes du labyrinthe et des obstacles.
 
