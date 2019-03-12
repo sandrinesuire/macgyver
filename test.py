@@ -1,15 +1,11 @@
-import pygame
+import unittest
 import time
-
 import labyrinthe as script
-
-import pytest
-
 from obstacles import Actor, Guardian, Wall, Protection
 
 
-class TestLabyrinthe:
-    def setup_method(self):
+class TestLabyrinthe(unittest.TestCase):
+    def setUp(self):
         self.labyrinthe = script.Labyrinthe()
 
     # test if Protection, Wall are in grid, and test position of guardian and actor
@@ -20,19 +16,18 @@ class TestLabyrinthe:
         assert Protection in list(set([type(v) for c, v in self.labyrinthe.grid.items()]))
 
     # test move down actor method
-    def test_grid_composition(self):
-        old_x, old_y = 1, 1
+    def test_move_actor(self):
         self.labyrinthe.moove_actor([0, 1])
         assert isinstance(self.labyrinthe.grid[(1, 2)], Actor)
 
     # test move_right actor method is not possible when a wall is at right
-    def test_grid_composition(self):
-        old_x, old_y = 1, 1
+    def test_move_actor1(self):
         self.labyrinthe.moove_actor([1, 0])
         assert isinstance(self.labyrinthe.grid[(1, 1)], Actor)
 
     # test front method with protection and guardian
-    def test_grid_composition(self):
+    def test_front_obstacle(self):
+        ether, needle, plastic_tub = None, None, None
         for (a, b), v in self.labyrinthe.grid.items():
             if v.name == 'ether':
                 ether = v
@@ -63,7 +58,8 @@ class TestLabyrinthe:
         assert len(self.labyrinthe.actor.protections) == 2
         self.labyrinthe.moove_actor([0, 1])
         assert len(self.labyrinthe.actor.protections) == 3
-        assert self.labyrinthe.actor.inlife == True
+        self.assertTrue(self.labyrinthe.actor.inlife)
+
         self.labyrinthe.moove_actor([0, 1])
         self.labyrinthe.moove_actor([0, 1])
         self.labyrinthe.moove_actor([0, 1])
@@ -127,8 +123,5 @@ class TestLabyrinthe:
         self.labyrinthe.moove_actor([0, -1])
         self.labyrinthe.moove_actor([1, 0])
         self.labyrinthe.moove_actor([1, 0])
-        assert self.labyrinthe.game_over == True
+        self.assertTrue(self.labyrinthe.game_over)
         time.sleep(5)
-
-
-

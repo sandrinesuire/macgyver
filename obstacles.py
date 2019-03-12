@@ -3,15 +3,15 @@ class Obstacle:
     Class representing all obstacles class.
     """
     name = "obstacle"
-    repr = ""
+    image = ""
 
-    def __init__(self, x, y, name=None, repr=None):
+    def __init__(self, x, y, name=None, image=None):
         self.x = x
         self.y = y
         if name:
             self.name = name
-        if repr:
-            self.repr = repr
+        if image:
+            self.image = image
 
     def __repr__(self):
         return "<{name} (x={x}, y={y})>".format(name=self.name, x=self.x, y=self.y)
@@ -32,7 +32,7 @@ class Space(Obstacle):
     Class representing a a space in labyrinthe. Just use for understanding the file map, to know where is the space.
     """
     name = "space"
-    repr = " "
+    image = " "
 
 
 class Wall(Obstacle):
@@ -40,7 +40,7 @@ class Wall(Obstacle):
     Class representing a piece of wall.
     """
     name = "wall"
-    repr = "ressource/wood.png"
+    image = "ressource/wood.png"
 
 
 class Guardian(Obstacle):
@@ -48,7 +48,7 @@ class Guardian(Obstacle):
     Class representing the guardian (this is the exit), he will sleep only if actor arrive with all the protections.
     """
     name = "guardian"
-    repr = "ressource/guardian.png"
+    image = "ressource/guardian.png"
 
     def front(self, labyrinthe):
         """
@@ -67,10 +67,10 @@ class Guardian(Obstacle):
         labyrinthe.actor.inlife = all(x in [e.name for e in labyrinthe.actor.protections] for x in
                                       [k for d in labyrinthe.protections for k in d])
         if labyrinthe.actor.inlife:
-            labyrinthe.actor.repr = "ressource/syringe.png"
-            labyrinthe.guardian.repr = "ressource/sleep_guardian.png"
+            labyrinthe.actor.image = "ressource/syringe.png"
+            labyrinthe.guardian.image = "ressource/sleep_guardian.png"
         else:
-            labyrinthe.actor.repr = "ressource/die.png"
+            labyrinthe.actor.image = "ressource/die.png"
 
         end_message = "You Won" if labyrinthe.actor.inlife else "You Die"
         labyrinthe.display_message = [self.x, self.y, end_message]
@@ -82,7 +82,7 @@ class Protection(Obstacle):
     Class representing the protections that actor must collect to put the guardian to sleep.
     """
     name = "protection"
-    repr = "ressource/wood.png"
+    image = "ressource/wood.png"
 
     def front(self, labyrinthe):
         """
@@ -108,6 +108,6 @@ class Actor(Obstacle):
     coordonates too)
     """
     name = "macgyver"
-    repr = "ressource/actor.png"
+    image = "ressource/actor.png"
     inlife = True
     protections = []

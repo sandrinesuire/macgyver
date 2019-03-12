@@ -149,7 +149,7 @@ class Labyrinthe:
         """
         Method returning the string representing of the map.
         We take the limits to display the grid. Obstacles and actor are displayed using their class attribute
-        'repr'.
+        'image'.
         """
         y = 0
 
@@ -158,7 +158,7 @@ class Labyrinthe:
             while x < self.limit_x:
                 case = self.grid.get((x, y))
                 if case:
-                    piece = pygame.image.load(case.repr).convert_alpha()
+                    piece = pygame.image.load(case.image).convert_alpha()
                     piece = pygame.transform.scale(piece, (self.bloc_x, self.bloc_y))
                     self.window.blit(piece, (x*self.bloc_x, y*self.bloc_y))
                 x += 1
@@ -183,7 +183,7 @@ class Labyrinthe:
 
         myfont = pygame.font.SysFont('Comic Sans MS', int(self.bloc_x))
         self.window.blit(bulle, (0, 0))
-        self.window.blit(myfont.render(rules, False, (0, 0, 0)), (20, self.bloc_x *2))
+        self.window.blit(myfont.render(rules, False, (0, 0, 0)), (20, self.bloc_x * 2))
         self.window.blit(myfont.render(rules1, False, (0, 0, 0)), (20, self.bloc_x * 3))
         self.window.blit(myfont.render(rules2, False, (0, 0, 0)), (20, self.bloc_x * 4))
         self.window.blit(myfont.render(rules3, False, (0, 0, 0)), (20, self.bloc_x * 5))
@@ -216,7 +216,6 @@ class Labyrinthe:
                          (loc_x_bulle + 5, loc_y_bulle + 5))
         self.son.play()
 
-
     def refresh(self):
         """
         Method refreshing all positions of obstacles
@@ -229,8 +228,6 @@ class Labyrinthe:
         """
         grid = self.grid
         frees = []
-        x = 0
-        y = 0
 
         # for each case in width and each case in length, if the tuple of coordonnate are not find in grid, so iy is a
         # free case
@@ -240,12 +237,12 @@ class Labyrinthe:
                     frees.append((x, y))
 
         for protection in self.protections:
-            title, repr = list(protection.items())[0]
+            title, image = list(protection.items())[0]
             # i choose by chance a free place to place one of the needed protection, i remove this free place, and add
             # the instance in the grid
             x, y = choice(frees)
             frees.remove((x, y))
-            obj_protect = Protection(x, y, title, repr)
+            obj_protect = Protection(x, y, title, image)
             self.grid[x, y] = obj_protect
 
     def moove_actor(self, direction):

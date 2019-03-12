@@ -59,5 +59,3 @@ while not labyrinthe.game_over:
 
 
 time.sleep(3)
-
-
