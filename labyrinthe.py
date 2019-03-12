@@ -164,8 +164,6 @@ class Labyrinthe:
                 x += 1
             y += 1
 
-        pygame.display.flip()
-
     def display_the_rules_message(self):
         """
         Method display the message
@@ -217,6 +215,7 @@ class Labyrinthe:
         self.window.blit(self.myfont.render(self.display_message[2], False, (0, 0, 0)),
                          (loc_x_bulle + 5, loc_y_bulle + 5))
         self.son.play()
+
 
     def refresh(self):
         """
@@ -276,8 +275,6 @@ class Labyrinthe:
                 # Calling front method of the obstacle if existing
                 if obstacle:
                     obstacle.front(self)
-                if self.display_message:
-                    self.display_the_message()
 
                 # registre the new position of actor in the grid only if not arrive to exit because i need to display
                 # the front between actor and guardian

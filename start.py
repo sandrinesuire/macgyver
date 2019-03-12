@@ -48,6 +48,8 @@ while not labyrinthe.game_over:
             # refresh the display
             labyrinthe.window.blit(labyrinthe.background, (0, 0))
             labyrinthe.refresh()
+            if labyrinthe.display_message:
+                labyrinthe.display_the_message()
             pygame.display.flip()
 
         # delete the rules message
