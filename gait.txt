@@ -60,5 +60,8 @@ I.) Créer le cadre de départ :
         fonctionnait pygame
         - j'ai modifier mon code pour que la fenêtre de pygame s'affiche avec une image de fond et adapter ma méthode
         display labyrinthe pour que les objects se chargent avec leurs images
+        - j'ai ajouter une structure et un texte pour les règles du jeu, et pour la récupération des objets et enfin
+        pour l'arrivée
         - j'ai ajouter la gestion des event et adapter le code pour que tout fonctionne
+        - j'ai modifier l'image de l'acteur et du guardien en cas de victoire.
 
