@@ -1,6 +1,3 @@
-import time
-
-
 class Obstacle:
     """
     Class representing all obstacles class.
@@ -62,13 +59,20 @@ class Guardian(Obstacle):
         """
         # complexe, need explication
         # [e.name for e in labyrinthe.actor.protections] get the name obstacle of all object in list of obstacle
-        # all(protection in ... for protection in ... the before list of name) return true if all name is find
+        # all(x in ... for x in ... the before list of name) return true if all name is find
         # [k for d in labyrinthe.protections for k in d] make a list of keys for exemple :
         # [{"needle": "a"}, {"needle1": "a1"}]
+        # if all the protection are checked, so the guardian sleep
 
-        labyrinthe.actor.inlife = all(x in [e.name for e in labyrinthe.actor.protections] for x in [k for d in labyrinthe.protections for k in d])
-        print(labyrinthe.actor.inlife)
-        end_message = "You Won" if labyrinthe.actor.inlife else "You Lost"
+        labyrinthe.actor.inlife = all(x in [e.name for e in labyrinthe.actor.protections] for x in
+                                      [k for d in labyrinthe.protections for k in d])
+        if labyrinthe.actor.inlife:
+            labyrinthe.actor.repr = "ressource/syringe.png"
+            labyrinthe.guardian.repr = "ressource/sleep_guardian.png"
+        else:
+            labyrinthe.actor.repr = "ressource/die.png"
+
+        end_message = "You Won" if labyrinthe.actor.inlife else "You Die"
         labyrinthe.display_message = [self.x, self.y, end_message]
         labyrinthe.game_over = True
 
@@ -92,13 +96,10 @@ class Protection(Obstacle):
         # needed corresponding to the missing protection to stay in alive
         needed = len(labyrinthe.protections) - len(labyrinthe.actor.protections)
         # display_message corresponding to the message of needed because it will be display later
-        labyrinthe.display_message = [self.x, self.y, "Plus que {}".format(needed)]
-
-        # if all the protection are checked, so the guardian sleep
-        all_checked = all(x in [e.name for e in labyrinthe.actor.protections] for x in [k for d in labyrinthe.protections for k in d])
-        if all_checked:
-            labyrinthe.guardian.repr = "ressource/sleep_guardian.png"
-
+        if needed > 0:
+            labyrinthe.display_message = [self.x, self.y, "Plus que {}".format(needed)]
+        else:
+            labyrinthe.display_message = [self.x, self.y, "Objets OK"]
 
 
 class Actor(Obstacle):
