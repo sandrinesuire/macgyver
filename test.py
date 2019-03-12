@@ -1,13 +1,16 @@
 import unittest
 import time
 from models import labyrinthe as script
-
-from models.obstacles import Actor, Guardian, Wall, Protection
+from models.actor import Actor
+from models.guardian import Guardian
+from models.obstacles import Wall
+from models.protections import Protection
 
 
 class TestLabyrinthe(unittest.TestCase):
     def setUp(self):
         self.labyrinthe = script.Labyrinthe()
+        self.actor = self.labyrinthe.actor
 
     # test if Protection, Wall are in grid, and test position of guardian and actor
     def test_grid_composition(self):
@@ -18,12 +21,12 @@ class TestLabyrinthe(unittest.TestCase):
 
     # test move down actor method
     def test_move_actor(self):
-        self.labyrinthe.moove_actor([0, 1])
+        self.actor.move([0, 1])
         assert isinstance(self.labyrinthe.grid[(1, 2)], Actor)
 
     # test move_right actor method is not possible when a wall is at right
     def test_move_actor1(self):
-        self.labyrinthe.moove_actor([1, 0])
+        self.actor.move([1, 0])
         assert isinstance(self.labyrinthe.grid[(1, 1)], Actor)
 
     # test front method with protection and guardian
@@ -53,76 +56,76 @@ class TestLabyrinthe(unittest.TestCase):
         self.labyrinthe.grid[1, 4] = needle
 
         assert self.labyrinthe.actor.protections == []
-        self.labyrinthe.moove_actor([0, 1])
+        self.actor.move([0, 1])
         assert len(self.labyrinthe.actor.protections) == 1
-        self.labyrinthe.moove_actor([0, 1])
+        self.actor.move([0, 1])
         assert len(self.labyrinthe.actor.protections) == 2
-        self.labyrinthe.moove_actor([0, 1])
+        self.actor.move([0, 1])
         assert len(self.labyrinthe.actor.protections) == 3
         self.assertTrue(self.labyrinthe.actor.inlife)
 
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([-1, 0])
-        self.labyrinthe.moove_actor([-1, 0])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([-1, 0])
-        self.labyrinthe.moove_actor([-1, 0])
-        self.labyrinthe.moove_actor([-1, 0])
-        self.labyrinthe.moove_actor([-1, 0])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([0, 1])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([-1, 0])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([0, -1])
-        self.labyrinthe.moove_actor([1, 0])
-        self.labyrinthe.moove_actor([1, 0])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([-1, 0])
+        self.actor.move([-1, 0])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([-1, 0])
+        self.actor.move([-1, 0])
+        self.actor.move([-1, 0])
+        self.actor.move([-1, 0])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([0, 1])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([1, 0])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([-1, 0])
+        self.actor.move([0, -1])
+        self.actor.move([0, -1])
+        self.actor.move([1, 0])
+        self.actor.move([1, 0])
         self.assertTrue(self.labyrinthe.game_over)
         time.sleep(5)
