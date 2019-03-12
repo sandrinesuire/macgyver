@@ -22,7 +22,7 @@ class Obstacle:
 
 class Space(Obstacle):
     """
-    Class representing a a space in labyrinthe. Just use for understanding the file map, to know where is the space.
+    Class representing a a space in labyrinth. Just use for understanding the file map, to know where is the space.
     """
     name = "space"
     image = " "

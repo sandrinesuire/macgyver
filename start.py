@@ -1,29 +1,29 @@
 """
-main activity of labyrinthe
+main activity of labyrinth
 """
 import time
 import pygame
 from pygame.constants import *
-from models.labyrinthe import Labyrinthe
+from models.labyrinth import Labyrinth
 
 
-# create labyrinthe instance, init the pygame window and display it
-labyrinthe = Labyrinthe()
-actor = labyrinthe.actor
+# create labyrinth instance, init the pygame window and display it
+labyrinth = Labyrinth()
+actor = labyrinth.actor
 resize = None
 
 # display the rules of this game
-labyrinthe.display_the_rules_message()
+labyrinth.display_the_rules_message()
 
 # loop during game_over == False, it will be True when actor arrive front of guardian
-while not labyrinthe.game_over:
+while not labyrinth.game_over:
     for event in pygame.event.get():  # We go through the list of all the events received
 
-        labyrinthe.display_message = None
+        labyrinth.display_message = None
         pygame.display.flip()
         if event.type == QUIT:  # If any of these events are of type QUIT
             pygame.display.flip()
-            labyrinthe.game_over = True  # We stop thee loop
+            labyrinth.game_over = True  # We stop thee loop
             # son.fadeout(300)  # Fondu à 300ms de la fin de l'objet "son"
 
         # if begin videoresize store the size but do nothing as the resize is not finished
@@ -32,8 +32,8 @@ while not labyrinthe.game_over:
 
         # when the resize is finish an event activeevent arrive, so I resize only here the window,
         elif event.type == ACTIVEEVENT and resize:
-                labyrinthe.resize(resize)
-                labyrinthe.display()
+                labyrinth.resize(resize)
+                labyrinth.display()
                 resize = None
 
         elif event.type == KEYDOWN:
@@ -47,16 +47,16 @@ while not labyrinthe.game_over:
                 actor.move([-1, 0])
 
             # refresh the display
-            labyrinthe.window.blit(labyrinthe.background, (0, 0))
-            labyrinthe.refresh()
-            if labyrinthe.display_message:
-                labyrinthe.display_the_message()
+            labyrinth.window.blit(labyrinth.background, (0, 0))
+            labyrinth.refresh()
+            if labyrinth.display_message:
+                labyrinth.display_the_message()
             pygame.display.flip()
 
         # delete the rules message
         elif event.type == KEYDOWN and event.key == K_a:
-            labyrinthe.window.blit(labyrinthe.background, (0, 0))
-            labyrinthe.refresh()
+            labyrinth.window.blit(labyrinth.background, (0, 0))
+            labyrinth.refresh()
 
 
 time.sleep(3)

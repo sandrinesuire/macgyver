@@ -9,7 +9,7 @@ from models.obstacles import Wall, Space
 from models.protections import Protection
 
 
-class Labyrinthe:
+class Labyrinth:
     """
     The labyrinth class corresponds to the platform of the game, it converts the file map.txt into obstalcles and
     positions the guardian, the protections and the actor (macgyver).
@@ -71,8 +71,12 @@ class Labyrinthe:
     def _place_obstacles(self):
         """
         Method reading the map.txt and create an instance for all obstacle and place then in the grid
+
         :return: Nothing
         """
+
+        # I have guarded this method within the labyrinth class because the obstacles are directly linked to the map a
+        # nd therefore to the labyrinth
         with open(self.map_file, "r") as f:
             content = f.read()
             obstacles, self.actor, self.guardian = self._creating_obstacles(content)
@@ -134,7 +138,7 @@ class Labyrinthe:
                 pass
             elif self.symbols[letter.lower()] == Actor:
                 actor = Actor(x, y)
-                actor.labyrinthe = self
+                actor.labyrinth = self
                 obstacles.append(actor)
             elif self.symbols[letter.lower()] == Guardian:
                 guardian = Guardian(x, y)
