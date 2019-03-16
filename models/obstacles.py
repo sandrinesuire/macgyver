@@ -19,6 +19,24 @@ class Obstacle:
     def __str__(self):
         return "{name} ({x}.{y})".format(name=self.name, x=self.x, y=self.y)
 
+    def front(self, actor):
+        """
+        Method call when actor arrive in case of with an obstacle instance. This method must be redefined in
+        child class.
+
+        :param actor: the actor concerned by the front
+        """
+        pass
+
+    def end_of_the_game(self, won):
+        """
+        Method call at the end of the game. This method must be redefined in
+        child class.
+
+        :param won: the result of the game
+        """
+        pass
+
 
 class Space(Obstacle):
     """
@@ -26,11 +44,3 @@ class Space(Obstacle):
     """
     name = "space"
     image = " "
-
-
-class Wall(Obstacle):
-    """
-    Class representing a piece of wall.
-    """
-    name = "wall"
-    image = "ressource/wood.png"

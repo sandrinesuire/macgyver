@@ -10,7 +10,7 @@ class Actor(Obstacle):
     """
     name = "macgyver"
     image = "ressource/actor.png"
-    inlife = True
+    winner = False
     protections = []
     labyrinth = None
 
@@ -39,10 +39,8 @@ class Actor(Obstacle):
 
             if obstacle is None or isinstance(obstacle, Protection) or isinstance(obstacle, Guardian):
                 # Calling front method of the obstacle depending of protection or guardian instance
-                if obstacle and isinstance(obstacle, Protection):
-                    self.front_protection(obstacle)
-                elif obstacle and isinstance(obstacle, Guardian):
-                    self.front_guardian()
+                if obstacle:
+                    obstacle.front(self)
 
                 # registre the new position of actor in the grid only if not arrive to exit because i need to display
                 # the front between actor and guardian
@@ -53,46 +51,15 @@ class Actor(Obstacle):
                     self.x = x
                     self.y = y
 
-    def front_protection(self, protection):
+    def end_of_the_game(self, won):
         """
-        Method managing face to face with an protection (protection), the actor recovers the protection and continues
-        his way
+        Method call at the end of the game, if the actor has all protections, he change his image with the syringe, to
+        explain that he endures the guardian, if not he change his image with the dead
 
-        :param protection: the protection instance
+        :param won: the result of the game
+        :return:
         """
-        self.labyrinth.grid[protection.x, protection.y] = None
-        if protection not in self.protections:
-            self.protections.append(protection)
-        # needed corresponding to the missing protection to stay in alive
-        needed = len(self.labyrinth.protections) - len(self.protections)
-        # display_message corresponding to the message of needed because it will be display later
-        if needed > 0:
-            self.labyrinth.display_message = [protection.x, protection.y, "Plus que {}".format(needed)]
-        else:
-            self.labyrinth.display_message = [protection.x, protection.y, "Objets OK"]
-
-    def front_guardian(self):
-        """
-        If actor arrive with all the protections the gardian must sleep, if not the guardian will kill actor, so set
-        the inlife parameter in fonction. For all case set the game_over at True
-
-        :param labyrinth: the labyrinth instance
-        """
-        # complexe, need explication
-        # [e.name for e in labyrinth.actor.protections] get the name obstacle of all object in list of obstacle
-        # all(x in ... for x in ... the before list of name) return true if all name is find
-        # [k for d in labyrinth.protections for k in d] make a list of keys for exemple :
-        # [{"needle": "a"}, {"needle1": "a1"}]
-        # if all the protection are checked, so the guardian sleep
-
-        self.inlife = all(x in [e.name for e in self.protections] for x in
-                          [k for d in self.labyrinth.protections for k in d])
-        if self.inlife:
+        if won:
             self.image = "ressource/syringe.png"
-            self.labyrinth.guardian.image = "ressource/sleep_guardian.png"
         else:
             self.image = "ressource/die.png"
-
-        end_message = "You Won" if self.inlife else "You Die"
-        self.labyrinth.display_message = [self.x, self.y, end_message]
-        self.labyrinth.game_over = True

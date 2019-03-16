@@ -74,9 +74,8 @@ class Labyrinth:
 
         :return: Nothing
         """
-
-        # I have guarded this method within the labyrinth class because the obstacles are directly linked to the map a
-        # nd therefore to the labyrinth
+        # I have guarded this method within the labyrinth class because the obstacles are directly linked to the map
+        # and therefore to the labyrinth
         with open(self.map_file, "r") as f:
             content = f.read()
             obstacles, self.actor, self.guardian = self._creating_obstacles(content)
@@ -252,4 +251,17 @@ class Labyrinth:
             frees.remove((x, y))
             obj_protect = Protection(x, y, title, image)
             self.grid[x, y] = obj_protect
+
+    def end_of_the_game(self, won):
+        """
+        Method call at the end of the game, if the actor has all protections, display the message "you won", if not
+        display the message "you die", set game_over at True
+
+        :param won: the result of the game
+        :return:
+        """
+        end_message = "You Won" if won else "You Die"
+        self.display_message = [self.actor.x, self.actor.y, end_message]
+        self.game_over = True
+
 

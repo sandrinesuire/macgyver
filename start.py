@@ -10,6 +10,10 @@ from models.labyrinth import Labyrinth
 # create labyrinth instance, init the pygame window and display it
 labyrinth = Labyrinth()
 actor = labyrinth.actor
+
+# when VIDEORESIZE : resize will store the size of the windows throughout the resize. I I recalculate all the data
+# related to resize only when resize exists and we pass to the event ACTIVATEVENT, otherwise the reloading of the
+# images is not fluid
 resize = None
 
 # display the rules of this game
@@ -19,12 +23,13 @@ labyrinth.display_the_rules_message()
 while not labyrinth.game_over:
     for event in pygame.event.get():  # We go through the list of all the events received
 
+        # delete the message of getting protection
         labyrinth.display_message = None
         pygame.display.flip()
+
         if event.type == QUIT:  # If any of these events are of type QUIT
             pygame.display.flip()
             labyrinth.game_over = True  # We stop thee loop
-            # son.fadeout(300)  # Fondu à 300ms de la fin de l'objet "son"
 
         # if begin videoresize store the size but do nothing as the resize is not finished
         elif event.type == VIDEORESIZE:
@@ -52,11 +57,5 @@ while not labyrinth.game_over:
             if labyrinth.display_message:
                 labyrinth.display_the_message()
             pygame.display.flip()
-
-        # delete the rules message
-        elif event.type == KEYDOWN and event.key == K_a:
-            labyrinth.window.blit(labyrinth.background, (0, 0))
-            labyrinth.refresh()
-
 
 time.sleep(3)

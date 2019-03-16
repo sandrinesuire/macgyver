@@ -63,7 +63,7 @@ class TestLabyrinth(unittest.TestCase):
         assert len(self.labyrinth.actor.protections) == 2
         self.actor.move([0, 1])
         assert len(self.labyrinth.actor.protections) == 3
-        self.assertTrue(self.labyrinth.actor.inlife)
+        self.assertTrue(self.labyrinth.actor.winner)
 
         self.actor.move([0, 1])
         self.actor.move([0, 1])
