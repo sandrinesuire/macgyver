@@ -5,8 +5,9 @@ from pygame.constants import RESIZABLE
 
 from models.actor import Actor
 from models.guardian import Guardian
-from models.obstacles import Wall, Space
+from models.obstacles import Space
 from models.protections import Protection
+from models.wall import Wall
 
 
 class Labyrinth:
