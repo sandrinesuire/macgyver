@@ -17,7 +17,7 @@ class Protection(Obstacle):
         """
         actor.labyrinth.grid[self.x, self.y] = None
         if self not in actor.protections:
-            actor.protections.append(self)
+            actor.get_protection(self)
         # needed corresponding to the missing protection to stay in alive
         needed = len(actor.labyrinth.protections) - len(actor.protections)
         # display_message corresponding to the message of needed because it will be display later

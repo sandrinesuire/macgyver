@@ -51,6 +51,15 @@ class Actor(Obstacle):
                     self.x = x
                     self.y = y
 
+    def get_protection(self, protection):
+        """
+        Method getting protection in parameter protections
+
+        :param protection: the protection
+        :return:
+        """
+        self.protections.append(protection)
+
     def end_of_the_game(self, won):
         """
         Method call at the end of the game, if the actor has all protections, he change his image with the syringe, to
@@ -63,3 +72,4 @@ class Actor(Obstacle):
             self.image = "ressource/syringe.png"
         else:
             self.image = "ressource/die.png"
+
