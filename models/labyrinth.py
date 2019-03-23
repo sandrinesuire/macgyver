@@ -39,6 +39,8 @@ class Labyrinth:
     bloc_y = 0
     bloc_x = 0
     display_message = None
+    grid = {}
+    game_over = False
 
     def __init__(self):
         """
@@ -59,9 +61,6 @@ class Labyrinth:
         pygame.display.set_icon(self.icon)
         pygame.display.set_caption("MacGyver need your help !")
         pygame.key.set_repeat(400, 30)
-
-        self.grid = {}
-        self.game_over = False
 
         self._place_obstacles()
 

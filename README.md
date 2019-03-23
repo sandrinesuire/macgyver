@@ -27,11 +27,17 @@ Specificities of the code
 
 Install
 -------  
-Launch install.py
+Launch install file : 
+```
+python install.py
+```
 
 Play
 ----  
-Launch start.py
+Launch start file
+```
+python start.py
+```
 
 Settings
 --------
