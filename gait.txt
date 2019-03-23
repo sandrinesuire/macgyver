@@ -28,7 +28,6 @@ I.) Créer le cadre de départ :
             - pip freeze > requirements.txt
         - installation des requirements :
             - pip install -r requirements.txt
-        - creation du fichier install.py
 
     C.) Commencez par créer le labyrinthe sans l’interface graphique.
         - création fichier map.txt avec largeur et longueur de 15 éléments, les emplacements de macgyver et de la sortie
