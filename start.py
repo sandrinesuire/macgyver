@@ -18,10 +18,13 @@ resize = None
 
 # display the rules of this game
 labyrinth.display_the_rules_message()
+game_over = False
 
 # loop during game_over == False, it will be True when actor arrive front of guardian
-while not labyrinth.game_over:
+while not game_over:
     for event in pygame.event.get():  # We go through the list of all the events received
+        if labyrinth.game_over:
+            game_over = True
 
         # delete the message of getting protection
         labyrinth.display_message = None
