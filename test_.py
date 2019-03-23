@@ -3,7 +3,7 @@ import time
 
 from models.actor import Actor
 from models.guardian import Guardian
-from models.obstacles import Wall
+from models.wall import Wall
 from models.protections import Protection
 from models import labyrinth as script
 

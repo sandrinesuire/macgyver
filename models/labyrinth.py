@@ -20,33 +20,34 @@ class Labyrinth:
     """
     # find below the parameters for the map_file. You can change the width (limit_x) and the length (limit_y).
     # you can change the symbols of the obstacles (Wall, Guardian, Actor, Space), you can adapte the file name 's map...
-    limit_x = 15
-    limit_y = 15
-    protections = [
-        {"needle": "ressource/needle.png"},
-        {"plastic_tub": "ressource/plastic_tub.png"},
-        {"ether": "ressource/ether.png"}
-    ]
-    symbols = {
-        "o": Wall,
-        "u": Guardian,
-        "x": Actor,
-        " ": Space
-    }
-    map_file = "map.txt"
-    width = 0
-    height = 0
-    bloc_y = 0
-    bloc_x = 0
-    display_message = None
-    grid = {}
-    game_over = False
 
     def __init__(self):
         """
         Method initializing the data and construct the grid. The grid is a dictionnary composed of "key" coordinate
         tuple and "value" obstacle instance. An obstacle instance can be the guardian, a wall, a protection, the actor.
         """
+        self.limit_x = 15
+        self.limit_y = 15
+        self.protections = [
+            {"needle": "ressource/needle.png"},
+            {"plastic_tub": "ressource/plastic_tub.png"},
+            {"ether": "ressource/ether.png"}
+        ]
+        self.symbols = {
+            "o": Wall,
+            "u": Guardian,
+            "x": Actor,
+            " ": Space
+        }
+        self.map_file = "map.txt"
+        self.width = 0
+        self.height = 0
+        self.bloc_y = 0
+        self.bloc_x = 0
+        self.display_message = None
+        self.grid = {}
+        self.game_over = False
+
         # pygame initialization
         pygame.init()
         self.window = pygame.display.set_mode((600, 600), RESIZABLE)
@@ -57,7 +58,7 @@ class Labyrinth:
         # calculate all dimensions
         self.resize()
 
-        self.myfont = pygame.font.SysFont('Comic Sans MS', int(self.bloc_x / 4 * 3))
+        self.myfont = pygame.font.Font('ressource/font.ttf', int(self.bloc_x / 2.5))
         pygame.display.set_icon(self.icon)
         pygame.display.set_caption("MacGyver need your help !")
         pygame.key.set_repeat(400, 30)
@@ -188,7 +189,7 @@ class Labyrinth:
         rules5 = "Dirigez vous avec les flèches du clavier"
         rules6 = "Appuyer sur la touche 'A' pour jouer"
 
-        myfont = pygame.font.SysFont('Comic Sans MS', int(self.bloc_x))
+        myfont = pygame.font.SysFont('ressource/font.ttf', int(self.bloc_x))
         self.window.blit(bulle, (0, 0))
         self.window.blit(myfont.render(rules, False, (0, 0, 0)), (20, self.bloc_x * 2))
         self.window.blit(myfont.render(rules1, False, (0, 0, 0)), (20, self.bloc_x * 3))

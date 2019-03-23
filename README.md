@@ -26,11 +26,33 @@ Specificities of the code
 * Use the shakespear language.
 
 Install
--------  
+------- 
+Mac
+Pensez à mettre à jour votre pip
+```
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+```
+
+Virtual environment
 ```
 pip install virtualenv
 virtualenv -p python3 env
 source env/bin/activate
+```
+
+virtualenvironment 
+```
+pip install virtualenv
+virtualenv -p python3 env
+source env/bin/activate
+```
+
+pygame
+``
+pip install -r requirements.txt
+```
+
+```
 pip install -r requirements.txt
 ```
 
