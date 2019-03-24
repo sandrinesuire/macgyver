@@ -26,32 +26,27 @@ Specificities of the code
 * Use the shakespear language.
 
 Install
-------- 
-Mac
-Pensez à mettre à jour votre pip
+-------
+
+Virtual environment Linux & Mac
+```
+pip install virtualenv
+virtualenv -p python3 env
+source env/bin/activate
+```
+
+virtual environment Windows
+```
+python -m venv env
+env\Scripts\activate.bat
+```
+
+Mac Don't forget  to update pip before install libraries
 ```
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 ```
 
-Virtual environment
-```
-pip install virtualenv
-virtualenv -p python3 env
-source env/bin/activate
-```
-
-virtualenvironment 
-```
-pip install virtualenv
-virtualenv -p python3 env
-source env/bin/activate
-```
-
-pygame
-``
-pip install -r requirements.txt
-```
-
+Install the libraries
 ```
 pip install -r requirements.txt
 ```
@@ -62,6 +57,20 @@ Launch start file
 ```
 python start.py
 ```
+
+Tests
+-----
+For testing this project run 
+```
+pytest
+```
+
+Platforms
+---------
+This application was testing on three platforms
+* Mac OSX Mojave 10.14.3 + python 3.6.5
+* Windows 10 pro 1803 + python 3.7.2
+* Ubuntu 18.10 + python 3.6.7
 
 Settings
 --------

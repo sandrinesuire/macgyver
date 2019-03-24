@@ -50,3 +50,8 @@ I.) Créer le cadre de départ :
         - j'ai modifier l'image de l'acteur et du guardien en cas de victoire.
         - pour finir j'ai ajouter quelque test pour verifier mes méthodes du labyrinthe et des obstacles.
 
+    E.) Compatibilité à différentes plateforms:
+        - Travaillant depuis bientôt trois ans sur linux, j'ai du installer deux environement de travail, un sur Mac et un sur Linux.
+        - Installation de mon éditeur, de git, de python, j'ai du reprendre tout depuis le début, ce qui m'a pris beaucoup de temps
+        - Le plus gros soucis que j'ai rencontré c'est la gestion de la compatibilité de Mojave (OSX Mac) et de pygame, seulement python 3.6.3 et 3.6.5 parait compatible, mais avant dded trouver la raison, j'ai du scruter le net pendant de longues heures
+
