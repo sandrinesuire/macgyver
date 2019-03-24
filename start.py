@@ -19,16 +19,15 @@ resize = None
 # display the rules of this game
 labyrinth.display_the_rules_message()
 game_over = False
+# delete the message of getting protection
+pygame.display.flip()
 
 # loop during game_over == False, it will be True when actor arrive front of guardian
 while not game_over:
     for event in pygame.event.get():  # We go through the list of all the events received
+        # adapt the game comportment for mac
         if labyrinth.game_over:
             game_over = True
-
-        # delete the message of getting protection
-        labyrinth.display_message = None
-        pygame.display.flip()
 
         if event.type == QUIT:  # If any of these events are of type QUIT
             pygame.display.flip()
@@ -59,6 +58,12 @@ while not game_over:
             labyrinth.refresh()
             if labyrinth.display_message:
                 labyrinth.display_the_message()
+                labyrinth.display_message = None
             pygame.display.flip()
+
+        # delete the rules message
+        elif event.type == KEYDOWN and event.key == K_a:
+            labyrinth.window.blit(labyrinth.background, (0, 0))
+            labyrinth.refresh()
 
 time.sleep(3)
