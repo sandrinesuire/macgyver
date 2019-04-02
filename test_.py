@@ -1,16 +1,16 @@
-import unittest
 import time
+import unittest
 
+from models import labyrinth as script
 from models.actor import Actor
 from models.guardian import Guardian
-from models.wall import Wall
 from models.protections import Protection
-from models import labyrinth as script
+from models.wall import Wall
 
 
 class TestLabyrinth(unittest.TestCase):
     def setUp(self):
-        self.labyrinth = script.Labyrinth()
+        self.labyrinth = script.Labyrinth("map_test.txt")
         self.actor = self.labyrinth.actor
 
     # test if Protection, Wall are in grid, and test position of guardian and actor

@@ -1,6 +1,7 @@
-import pygame
+import os
 from random import choice
 
+import pygame
 from pygame.constants import RESIZABLE
 
 from models.actor import Actor
@@ -8,6 +9,18 @@ from models.guardian import Guardian
 from models.obstacles import Space
 from models.protections import Protection
 from models.wall import Wall
+
+
+def load_image(filename):
+    """Calls pygame to load image and convert to transparent"""
+    try:
+        directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # we get the right path.
+        path_to_file = os.path.join(directory, "ressource", filename)
+
+        return pygame.image.load(path_to_file).convert_alpha()
+    except FileNotFoundError:
+        print("Couldn't open the image \"" + filename + "\"")
+        exit()
 
 
 class Labyrinth:
@@ -20,40 +33,42 @@ class Labyrinth:
     """
     # find below the parameters for the map_file. You can change the width (limit_x) and the length (limit_y).
     # you can change the symbols of the obstacles (Wall, Guardian, Actor, Space), you can adapte the file name 's map...
+    limit_x = 15
+    limit_y = 15
+    protections = [
+        {"needle": "needle.png"},
+        {"plastic_tub": "plastic_tub.png"},
+        {"ether": "ether.png"}
+    ]
+    symbols = {
+        "o": Wall,
+        "u": Guardian,
+        "x": Actor,
+        " ": Space
+    }
+    map_file = "map.txt"
+    width = 0
+    height = 0
+    bloc_y = 0
+    bloc_x = 0
+    display_message = None
+    game_over = False
 
-    def __init__(self):
+    def __init__(self, file_name=None):
         """
         Method initializing the data and construct the grid. The grid is a dictionnary composed of "key" coordinate
         tuple and "value" obstacle instance. An obstacle instance can be the guardian, a wall, a protection, the actor.
         """
-        self.limit_x = 15
-        self.limit_y = 15
-        self.protections = [
-            {"needle": "ressource/needle.png"},
-            {"plastic_tub": "ressource/plastic_tub.png"},
-            {"ether": "ressource/ether.png"}
-        ]
-        self.symbols = {
-            "o": Wall,
-            "u": Guardian,
-            "x": Actor,
-            " ": Space
-        }
-        self.map_file = "map.txt"
-        self.width = 0
-        self.height = 0
-        self.bloc_y = 0
-        self.bloc_x = 0
-        self.display_message = None
         self.grid = {}
-        self.game_over = False
+        if file_name:
+            self.map_file = file_name
 
         # pygame initialization
         pygame.init()
         self.window = pygame.display.set_mode((600, 600), RESIZABLE)
-        self.background = pygame.image.load("ressource/background.jpg").convert_alpha()
+        self.background = load_image("background.jpg")
         self.son = pygame.mixer.Sound("ressource/test.wav")
-        self.icon = pygame.image.load("ressource/logo.png")
+        self.icon = load_image("logo.png")
 
         # calculate all dimensions
         self.resize()
@@ -166,7 +181,7 @@ class Labyrinth:
             while x < self.limit_x:
                 case = self.grid.get((x, y))
                 if case:
-                    piece = pygame.image.load(case.image).convert_alpha()
+                    piece = load_image(case.image).convert_alpha()
                     piece = pygame.transform.scale(piece, (self.bloc_x, self.bloc_y))
                     self.window.blit(piece, (x*self.bloc_x, y*self.bloc_y))
                 x += 1
@@ -178,7 +193,7 @@ class Labyrinth:
         """
         # we display a info bulle to give the number of missing protections, the coordonates of display depending
         # of the coordonates of the actor, while being careful not to go over the window
-        bulle = pygame.image.load("ressource/bulle.png").convert_alpha()
+        bulle = load_image("bulle.png").convert_alpha()
         bulle = pygame.transform.scale(bulle, (self.width, self.height))
 
         rules = "Règles du jeu : Vous devez aider"
@@ -205,7 +220,7 @@ class Labyrinth:
         """
         # we display a info bulle to give the number of missing protections, the coordonates of display depending
         # of the coordonates of the actor, while being careful not to go over the window
-        bulle = pygame.image.load("ressource/bulle.png").convert_alpha()
+        bulle = load_image("bulle.png").convert_alpha()
         bulle = pygame.transform.scale(bulle, (3 * self.bloc_x, 1 * self.bloc_y))
 
         loc_x_bulle = self.display_message[0] * self.bloc_x
@@ -264,5 +279,3 @@ class Labyrinth:
         end_message = "You Won" if won else "You Die"
         self.display_message = [self.actor.x, self.actor.y, end_message]
         self.game_over = True
-
-

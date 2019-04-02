@@ -6,7 +6,7 @@ class Guardian(Obstacle):
     Class representing the guardian (this is the exit), he will sleep only if actor arrive with all the protections.
     """
     name = "guardian"
-    image = "ressource/guardian.png"
+    image = "guardian.png"
 
     def front(self, actor):
         """
@@ -38,5 +38,4 @@ class Guardian(Obstacle):
         :return:
         """
         if won:
-            self.image = "ressource/sleep_guardian.png"
-
+            self.image = "sleep_guardian.png"

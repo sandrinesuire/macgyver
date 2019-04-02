@@ -26,4 +26,3 @@ class Protection(Obstacle):
         else:
             actor.labyrinth.display_message = [self.x, self.y, "Objets OK"]
             actor.winner = True
-

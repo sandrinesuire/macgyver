@@ -9,7 +9,7 @@ class Actor(Obstacle):
     coordonates too)
     """
     name = "macgyver"
-    image = "ressource/actor.png"
+    image = "actor.png"
     winner = False
     protections = []
     labyrinth = None
@@ -69,7 +69,6 @@ class Actor(Obstacle):
         :return:
         """
         if won:
-            self.image = "ressource/syringe.png"
+            self.image = "syringe.png"
         else:
-            self.image = "ressource/die.png"
-
+            self.image = "die.png"
